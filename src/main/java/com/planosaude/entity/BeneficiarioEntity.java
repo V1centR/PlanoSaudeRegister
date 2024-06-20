@@ -1,30 +1,30 @@
 package com.planosaude.entity;
 
-import java.io.Serializable;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 
 /**
  * The persistent class for the beneficiario database table.
  * 
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
 @Entity
 @Table(name = "BENEFICIARIO")
-public class BeneficiarioEntity implements Serializable {
+public class BeneficiarioEntity {
 
 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String dataAtualizacao;
@@ -37,9 +37,22 @@ public class BeneficiarioEntity implements Serializable {
 
 	private String telefone;
 
-	//bi-directional many-to-one association to Documento
-	@OneToMany(mappedBy="beneficiario")
+	@OneToMany(mappedBy = "beneficiario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<DocumentoEntity> documentos;
+	
+	public DocumentoEntity addDocumento(DocumentoEntity documento) {
+		getDocumentos().add(documento);
+		documento.setBeneficiario(this);
+
+		return documento;
+	}
+
+	public DocumentoEntity removeDocumento(DocumentoEntity documento) {
+		getDocumentos().remove(documento);
+		documento.setBeneficiario(null);
+
+		return documento;
+	}
 
 
 }
