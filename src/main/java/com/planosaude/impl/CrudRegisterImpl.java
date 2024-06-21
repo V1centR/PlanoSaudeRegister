@@ -1,5 +1,7 @@
 package com.planosaude.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,11 @@ public class CrudRegisterImpl {
             }
         }
 		return repo.save(postData);
+	}
+	
+	@Transactional
+	public List<BeneficiarioEntity> getAll() {
+		return repo.findAll();
 	}
 
 }

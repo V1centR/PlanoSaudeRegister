@@ -1,5 +1,8 @@
 package com.planosaude.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,17 +27,24 @@ public class CrudRegistersController {
 	@Autowired
 	CrudRegisterImpl service;
 	
-	@CrossOrigin
 	@PostMapping
 	public ResponseEntity<BeneficiarioEntity> registerClient(@RequestBody BeneficiarioEntity postData) {
-		System.out.println(postData);
-		return new ResponseEntity<>(service.insert(postData), HttpStatus.CREATED);
+		
+		try {
+			return new ResponseEntity<>(service.insert(postData), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	@GetMapping("/all")
-	public String getAllClients() {
-		//return service.getTodayAgendamento();
-		return "{OK}";
+	public ResponseEntity<List<BeneficiarioEntity>> getAllBeneficiarios() {
+		try {
+			List<BeneficiarioEntity> response = service.getAll();
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	@CrossOrigin
