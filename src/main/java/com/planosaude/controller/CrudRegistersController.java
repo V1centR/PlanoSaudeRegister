@@ -19,25 +19,36 @@ import com.planosaude.entity.BeneficiarioEntity;
 import com.planosaude.entity.DocumentoEntity;
 import com.planosaude.impl.CrudRegisterImpl;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 
 @RestController
 @RequestMapping("/manage")
+@Tag(name = "Beneficiarios", description = "CRUD Operations Management System")
 public class CrudRegistersController {
 	
 	@Autowired
 	CrudRegisterImpl service;
 	
 	@PostMapping
+	@Operation(summary = "Register beneficiarios")
 	public ResponseEntity<BeneficiarioEntity> registerClient(@RequestBody BeneficiarioEntity postData) {
 		
-		try {
-			return new ResponseEntity<>(service.insert(postData), HttpStatus.CREATED);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		 try {
+	            for (DocumentoEntity doc : postData.getDocumentos()) {
+	                if (doc.getTipoDocumento() == null) {
+	                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	                }
+	            }
+	            return new ResponseEntity<>(service.insert(postData), HttpStatus.CREATED);
+	        } catch (Exception e) {
+	            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	     }
 	}
 	
 	@GetMapping("/all")
+	@Operation(summary = "get all beneficiarios")
 	public ResponseEntity<List<BeneficiarioEntity>> getAllBeneficiarios() {
 		try {
 			List<BeneficiarioEntity> response = service.getAll();
@@ -48,6 +59,7 @@ public class CrudRegistersController {
 	}
 
 	@GetMapping("/{clientID}")
+	@Operation(summary = "get docs beneficiario by id")
 	public ResponseEntity<List<DocumentoEntity>> getDocsByIDClient(@PathVariable("clientID") String clientID) {
 		try {
 			List<DocumentoEntity> response = service.getAllDocs(clientID);
@@ -58,17 +70,25 @@ public class CrudRegistersController {
 	}
 	
 	@PutMapping("/{clientID}")
+	@Operation(summary = "Update a beneficiario")
 	public ResponseEntity<BeneficiarioEntity> updateBeneficiario(@PathVariable("clientID") Integer clientID,@RequestBody BeneficiarioEntity beneficiarioDetails) {
 		try {
 			Optional<BeneficiarioEntity> updatedBeneficiario = service.updateBeneficiario(clientID, beneficiarioDetails);
-			return updatedBeneficiario.map(beneficiario -> new ResponseEntity<>(beneficiario, HttpStatus.OK))
+            for (DocumentoEntity doc : beneficiarioDetails.getDocumentos()) {
+                if (doc.getTipoDocumento() == null) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            }
+            return updatedBeneficiario.map(beneficiario -> new ResponseEntity<>(beneficiario, HttpStatus.OK))
                     .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
 	}
 	
 	@DeleteMapping("/{clientID}")
+	@Operation(summary = "delete a beneficiario")
 	public ResponseEntity<String> deleteClient(@PathVariable("clientID") Integer clientID) {
 		try {
 			service.deleteBeneficiario(clientID);

@@ -21,10 +21,12 @@ public class WebConfig  {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/manage/**").permitAll() // Permitir acesso público ao endpoint
-                .anyRequest().authenticated() // Todos os outros endpoints exigem autenticação
+                .requestMatchers("/manage/**").permitAll()
+                .requestMatchers("/swagger-ui/**").permitAll()
+                .requestMatchers("/v3/api-docs/**").permitAll()
+                .anyRequest().authenticated()
             )
-            .csrf((csrf) -> csrf.disable()); // Desabilitar CSRF para simplificação (não recomendado em produção)
+            .csrf((csrf) -> csrf.disable());
 
         return http.build();
     }

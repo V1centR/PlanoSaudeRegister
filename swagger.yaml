@@ -1,0 +1,150 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+tags:
+  - name: Beneficiarios
+    description: >-
+      Operations pertaining to Beneficiarios in the Beneficiarios Management
+      System
+paths:
+  /manage/{clientID}:
+    get:
+      tags:
+        - Beneficiarios
+      summary: get docs beneficiario by id
+      operationId: getDocsByIDClient
+      parameters:
+        - name: clientID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DocumentoEntity'
+    put:
+      tags:
+        - Beneficiarios
+      summary: Update a beneficiario
+      operationId: updateBeneficiario
+      parameters:
+        - name: clientID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BeneficiarioEntity'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BeneficiarioEntity'
+    delete:
+      tags:
+        - Beneficiarios
+      summary: delete a beneficiario
+      operationId: deleteClient
+      parameters:
+        - name: clientID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /manage:
+    post:
+      tags:
+        - Beneficiarios
+      summary: Register beneficiarios
+      operationId: registerClient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BeneficiarioEntity'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BeneficiarioEntity'
+  /manage/all:
+    get:
+      tags:
+        - Beneficiarios
+      summary: get all beneficiarios
+      operationId: getAllBeneficiarios
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BeneficiarioEntity'
+components:
+  schemas:
+    BeneficiarioEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        dataAtualizacao:
+          type: string
+        dataInclusao:
+          type: string
+        dataNascimento:
+          type: string
+        nome:
+          type: string
+        telefone:
+          type: string
+        documentos:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentoEntity'
+    DocumentoEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        dataAtualizacao:
+          type: string
+        dataInclusao:
+          type: string
+        descricao:
+          type: string
+        tipoDocumento:
+          type: string
+        beneficiario:
+          $ref: '#/components/schemas/BeneficiarioEntity'

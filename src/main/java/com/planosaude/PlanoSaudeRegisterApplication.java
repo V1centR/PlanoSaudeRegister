@@ -9,5 +9,4 @@ public class PlanoSaudeRegisterApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PlanoSaudeRegisterApplication.class, args);
 	}
-
 }
