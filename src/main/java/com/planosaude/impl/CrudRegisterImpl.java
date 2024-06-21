@@ -1,6 +1,7 @@
 package com.planosaude.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,11 @@ public class CrudRegisterImpl {
 	@Transactional
 	public List<BeneficiarioEntity> getAll() {
 		return repo.findAll();
+	}
+	
+	@Transactional
+	public List<DocumentoEntity> getAllDocs(String idBeneficiario) {
+		return documentRepo.findByBeneficiarioId(Integer.valueOf(idBeneficiario));
 	}
 
 }

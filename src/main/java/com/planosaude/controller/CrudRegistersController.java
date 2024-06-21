@@ -1,6 +1,5 @@
 package com.planosaude.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.planosaude.entity.BeneficiarioEntity;
+import com.planosaude.entity.DocumentoEntity;
 import com.planosaude.impl.CrudRegisterImpl;
 
 
@@ -46,12 +46,15 @@ public class CrudRegistersController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	@CrossOrigin
+
 	@GetMapping("/{clientID}")
-	public String getDocsByIDClient(@PathVariable("clientID") String clientID) {
-		//return service.getTodayAgendamento();
-		return "{OK}";
+	public ResponseEntity<List<DocumentoEntity>> getDocsByIDClient(@PathVariable("clientID") String clientID) {
+		try {
+			List<DocumentoEntity> response = service.getAllDocs(clientID);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	@CrossOrigin
