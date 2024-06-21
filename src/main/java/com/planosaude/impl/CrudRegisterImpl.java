@@ -66,5 +66,10 @@ public class CrudRegisterImpl {
         }
         return Optional.empty();
     }
+	
+	@Transactional
+	public void deleteBeneficiario(Integer idBeneficiario) {
+		documentRepo.deleteById(idBeneficiario);
+	}
 
 }
