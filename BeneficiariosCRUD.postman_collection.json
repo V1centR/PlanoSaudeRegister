@@ -1,0 +1,128 @@
+{
+	"info": {
+		"_postman_id": "de593409-89ae-4ad6-8464-c92e9ce18603",
+		"name": "BeneficiariosCRUD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4075290"
+	},
+	"item": [
+		{
+			"name": "ALL",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/manage/all",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"manage",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "REGISTER",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\t\r\n{\r\n\t\"nome\":\"Miguel Guimarães\",\r\n\t\"telefone\":\"11944442222\",\r\n\t\"dataNascimento\":\"17-09-2015\",\r\n\t\"dataInclusao\":\"16-06-2024\",\r\n\t\"dataAtualizacao\":\"16-06-2024 12:12\",\r\n    \"documentos\": [{\r\n\t\t\"tipoDocumento\":\"RG\",\r\n\t\t\"descricao\":\"rg documento ok\",\r\n\t\t\"dataInclusao\":\"16-06-2024 12:12\",\r\n\t\t\"dataAtualizacao\":\"16-06-2024 12:12\"\t\r\n\t},\r\n    {\r\n\t\t\"tipoDocumento\":\"CNH\",\r\n\t\t\"descricao\":\"CNH na validade\",\r\n\t\t\"dataInclusao\":\"16-06-2024 12:15\",\r\n\t\t\"dataAtualizacao\":\"16-06-2024 12:15\"\t\r\n\t},\r\n    {\r\n\t\t\"tipoDocumento\":\"CPF\",\r\n\t\t\"descricao\":\"CPF regular na receita federal\",\r\n\t\t\"dataInclusao\":\"16-06-2024 12:15\",\r\n\t\t\"dataAtualizacao\":\"16-06-2024 12:15\"\t\r\n\t}]\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/manage",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"manage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Beneficiario docs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/manage/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"manage",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE Beneficiario",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\":\"Miguel Guimarães Carvalho\",\r\n\t\"telefone\":\"11944442222\",\r\n\t\"dataNascimento\":\"17-09-2015\",\r\n\t\"dataInclusao\":\"16-06-2024\",\r\n\t\"dataAtualizacao\":\"16-06-2024 12:12\",\r\n    \"documentos\": [{\r\n\t\t\"tipoDocumento\":\"RG\",\r\n\t\t\"descricao\":\"rg documento ok\",\r\n\t\t\"dataInclusao\":\"16-06-2024 12:12\",\r\n\t\t\"dataAtualizacao\":\"16-06-2024 12:12\"\t\r\n\t},\r\n    {\r\n\t\t\"tipoDocumento\":\"CNH\",\r\n\t\t\"descricao\":\"CNH fora da validade\",\r\n\t\t\"dataInclusao\":\"16-06-2024 12:15\",\r\n\t\t\"dataAtualizacao\":\"16-06-2024 12:15\"\t\r\n\t},\r\n    {\r\n\t\t\"tipoDocumento\":\"CPF\",\r\n\t\t\"descricao\":\"CPF irregular na receita federal\",\r\n\t\t\"dataInclusao\":\"16-06-2024 12:15\",\r\n\t\t\"dataAtualizacao\":\"16-06-2024 12:15\"\t\r\n\t}]\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/manage/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"manage",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Beneficiario",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/manage/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"manage",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
