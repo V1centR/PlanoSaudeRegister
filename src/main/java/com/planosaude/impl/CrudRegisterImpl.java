@@ -41,5 +41,30 @@ public class CrudRegisterImpl {
 	public List<DocumentoEntity> getAllDocs(String idBeneficiario) {
 		return documentRepo.findByBeneficiarioId(Integer.valueOf(idBeneficiario));
 	}
+	
+	@Transactional
+    public Optional<BeneficiarioEntity> updateBeneficiario(int id, BeneficiarioEntity beneficiarioDetails) {
+        Optional<BeneficiarioEntity> optionalBeneficiario = repo.findById(id);
+        if (optionalBeneficiario.isPresent()) {
+            BeneficiarioEntity existingBeneficiario = optionalBeneficiario.get();
+            existingBeneficiario.setDataAtualizacao(beneficiarioDetails.getDataAtualizacao());
+            existingBeneficiario.setDataInclusao(beneficiarioDetails.getDataInclusao());
+            existingBeneficiario.setDataNascimento(beneficiarioDetails.getDataNascimento());
+            existingBeneficiario.setNome(beneficiarioDetails.getNome());
+            existingBeneficiario.setTelefone(beneficiarioDetails.getTelefone());
+            
+            List<DocumentoEntity> existingDocuments = existingBeneficiario.getDocumentos();
+            existingDocuments.clear();
+            for (DocumentoEntity documento : beneficiarioDetails.getDocumentos()) {
+                documento.setBeneficiario(existingBeneficiario);
+                existingDocuments.add(documento);
+            }
+            existingBeneficiario.setDocumentos(existingDocuments);
+
+            repo.save(existingBeneficiario);
+            return Optional.of(existingBeneficiario);
+        }
+        return Optional.empty();
+    }
 
 }

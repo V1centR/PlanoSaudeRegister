@@ -1,6 +1,7 @@
 package com.planosaude.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,11 +58,15 @@ public class CrudRegistersController {
 		}
 	}
 	
-	@CrossOrigin
 	@PutMapping("/{clientID}")
-	public String updateClient() {
-		//return service.getTodayAgendamento();
-		return "{OK}";
+	public ResponseEntity<BeneficiarioEntity> updateBeneficiario(@PathVariable("clientID") Integer clientID,@RequestBody BeneficiarioEntity beneficiarioDetails) {
+		try {
+			Optional<BeneficiarioEntity> updatedBeneficiario = service.updateBeneficiario(clientID, beneficiarioDetails);
+			return updatedBeneficiario.map(beneficiario -> new ResponseEntity<>(beneficiario, HttpStatus.OK))
+                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	@CrossOrigin

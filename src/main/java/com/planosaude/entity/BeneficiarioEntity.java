@@ -2,6 +2,8 @@ package com.planosaude.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -37,7 +39,8 @@ public class BeneficiarioEntity {
 
 	private String telefone;
 
-	@OneToMany(mappedBy = "beneficiario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "beneficiario", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
 	private List<DocumentoEntity> documentos;
 	
 	public DocumentoEntity addDocumento(DocumentoEntity documento) {
